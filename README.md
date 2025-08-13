@@ -72,7 +72,7 @@ services:
       - ./litellm/combine_system_messages_plugin.py:/app/combine_system_messages_plugin.py
       - ./litellm/custom_logger.py:/app/custom_logger.py
     command: |
-      --config /app/litellm_config.yaml --detailed_debug
+      --config /app/litellm_config.yaml
     restart: unless-stopped
   vllm-chat:
     image: vllm/vllm-openai:latest
