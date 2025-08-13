@@ -1,0 +1,34 @@
+services:
+  litellm:
+    image: ghcr.io/berriai/litellm:main-stable
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./litellm/litellm_config.yaml:/app/litellm_config.yaml
+      - ./litellm/remove_name_plugin.py:/app/remove_name_plugin.py
+      - ./litellm/combine_system_messages_plugin.py:/app/combine_system_messages_plugin.py      
+      - ./litellm/custom_logger.py:/app/custom_logger.py      
+    command: |
+      --config /app/litellm_config.yaml
+    restart: unless-stopped
+  vllm-chat:
+    image: vllm/vllm-openai:latest
+    runtime: nvidia
+    ipc: host
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    volumes:
+      - .cache/huggingface:/root/.cache/huggingface
+    environment:
+      # ADD HF_TOKEN to your .env file.
+      HUGGING_FACE_HUB_TOKEN: ${HF_TOKEN}
+      VLLM_LOGGING_LEVEL: INFO
+
+    command: --served-model-name chat --port 8033 --model HuggingFaceTB/SmolLM-135M-Instruct --max-num-seqs 1 --max-model-len 2048 --swap-space 0 --gpu-memory-utilization 0.25
+    ports:
+      - "8033:8033"

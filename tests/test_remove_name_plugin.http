@@ -1,0 +1,60 @@
+### Test Remove Name Plugin
+
+# Request with name field (to be removed by plugin)
+POST http://localhost:4000/chat/completions
+Content-Type: application/json
+
+{
+  "model": "chat",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a helpful assistant."
+    },
+    {
+      "role": "user",
+      "name": "John Doe",
+      "content": "Hello, whats my Name?"
+    },
+    {
+      "role": "assistant",
+      "name": "Alan Assistant",
+      "content": "I I don't know."
+    },
+    {
+      "role": "user",
+      "name": "John Doe",
+      "content": "Are you sure?"
+    }
+  ]
+}
+
+###
+
+# Request without name field (for comparison)
+POST http://localhost:4000/chat/completions
+Content-Type: application/json
+
+{
+  "model": "chat",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a helpful assistant."
+    },
+    {
+      "role": "user",
+      "content": "Hello, how can you help me today?"
+    },
+    {
+      "role": "assistant",
+      "name": "Alan Assistant",
+      "content": "I I don't know."
+    },
+    {
+      "role": "user",
+      "name": "John Doe",
+      "content": "Are you sure?"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+model_list:
+  - model_name: chat
+    litellm_params:
+      model: hosted_vllm/chat
+      base_url: http://host.docker.internal:8033/v1/
+      api_key: "sk-none"
+      cache: true
+
+litellm_settings:
+  callbacks: ["remove_name_plugin.proxy_handler_instance", 
+              "combine_system_messages_plugin.proxy_handler_instance", 
+              "custom_logger.pre_api_call_logger"
+             ]

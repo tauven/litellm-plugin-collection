@@ -1,0 +1,42 @@
+### Test Combine System Messages Plugin
+
+POST http://localhost:4000/v1/chat/completions
+Content-Type: application/json
+
+{
+  "model": "chat",
+  "messages": [
+    {
+      "role": "system",
+      "content": "System message 1"
+    },
+    {
+      "role": "system",
+      "content": "System message 2"
+    },
+    {
+      "role": "user",
+      "content": "User message"
+    }
+  ]
+}
+
+### Expected Response
+The response should contain a single 'system' message that combines the content of the two 'system' messages.
+
+POST http://localhost:4000/v1/chat/completions
+Content-Type: application/json
+
+{
+  "model": "chat",  
+  "messages": [
+    {
+      "role": "system",
+      "content": "System message 1 System message 2"
+    },
+    {
+      "role": "user",
+      "content": "User message"
+    }
+  ]
+}
